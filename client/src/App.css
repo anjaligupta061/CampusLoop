@@ -1,0 +1,159 @@
+main {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+h1 {
+  font-size: 40px;
+  color: #7655d9;
+}
+
+p {
+  font-size: 18px;
+}
+
+.resource-card {
+  background: white;
+  padding: 20px;
+  margin: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.resource-card h3 {
+  color: #7655d9;
+  margin-bottom: 8px;
+}
+
+.resource-card p {
+  color: #777;
+}
+
+.resource-card h4 {
+  margin-top: 10px;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px 18px;
+  margin-top: 25px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #7655d9;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #777;
+  padding: 30px;
+}
+
+.category-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.category-btn {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  background: white;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  border-color: #7655d9;
+  color: #7655d9;
+}
+
+.category-btn.active {
+  background: #7655d9;
+  color: white;
+  border-color: #7655d9;
+}
+
+.sort-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 30px;
+}
+
+.sort-container select {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.listing-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.listing-badge.sell {
+  background: #eee8ff;
+  color: #7655d9;
+}
+
+.listing-badge.rent {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.listing-badge.lend {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.listing-badge.giveaway {
+  background: #fce7f3;
+  color: #db2777;
+}
+
+.listing-type-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.listing-type-filters button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+}
+
+.listing-type-filters button.active {
+  background: #6c63ff;
+  color: white;
+  border-color: #6c63ff;
+}
