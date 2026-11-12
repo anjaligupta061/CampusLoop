@@ -6,6 +6,7 @@ const links = [
   { to: '/lost-found', label: 'Lost & Found' },
   { to: '/need-board', label: 'Need Board' },
   { to: '/messages', label: 'Messages' },
+  { to: '/profile', label: 'Profile'},
 ]
 
 function Navbar() {
