@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import ThemeToggle from './ThemeToggle'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -37,6 +38,7 @@ function Navbar() {
             </li>
           ))}
         </ul>
+        <ThemeToggle />
         <button
           onClick={() => setIsOpen(!isOpen)}
           className='text-2xl md:hidden'
