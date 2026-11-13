@@ -1,9 +1,13 @@
 import Button from '../components/Button'
 import ListingCard from '../components/ListingCard'
 import Input from '../components/Input'
+import { useState } from 'react'
 
 function Home() {
+  const[name, setName] = useState('')
+  const[email, setEmail] = useState('')
   return (
+    
     <div>
       <h1 className="font-heading text-3xl font-bold text-brand-600">Home</h1>
       <p className="mt-2 text-gray-600 dark:text-gray-300">Landing page yahan banega.</p>
@@ -23,8 +27,23 @@ function Home() {
         </div>
 
       <div className="mt-8 max-w-sm space-y-4">
-        <Input label="Name" id="name" placeholder="Apna naam likho" />
-        <Input label="Email" id="email" type="email" placeholder="you@college.edu" />
+        <Input 
+          label="Name" 
+          id="name" 
+          placeholder="Apna naam likho" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <p>Tumne likha: {name}</p>
+        <Input 
+          label="Email" 
+          id="email" 
+          type="email" 
+          placeholder="you@college.edu"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <p>Tumne likha: {email}</p>
         <Input label="Password" id="password" type="password" />
       </div>
     </div>

@@ -7,6 +7,7 @@ import NeedBoard from './pages/NeedBoard'
 import Messages from './pages/Messages'
 import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
+import Login from './pages/Login'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/need-board" element={<NeedBoard />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
