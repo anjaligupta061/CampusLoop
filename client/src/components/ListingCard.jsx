@@ -1,6 +1,7 @@
 import SaveButton from './SaveButton'
+import { Image as ImageIcon } from 'lucide-react'
 
-function ListingCard({ title, price, type, condition, location }) {
+function ListingCard({ title, price, type, condition, location, image }) {
   let priceText
 
   if (price === 0) {
@@ -13,6 +14,15 @@ function ListingCard({ title, price, type, condition, location }) {
 
   return (
     <div className="rounded-2xl border border-brand-100 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-night-card">
+    <div className="mb-3 aspect-[4/3] overflow-hidden rounded-xl bg-brand-100 dark:bg-white/5">
+        {image ? (
+          <img src={image} alt={title} className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex h-full items-center justify-center text-brand-500/60">
+            <ImageIcon size={36} />
+          </div>
+        )}
+      </div>
       <div className="flex items-center justify-between">
         <span className="rounded-full dark:bg-white/10 dark:text-brand-100 px-3 py-1 text-xs font-medium">
           {type}
