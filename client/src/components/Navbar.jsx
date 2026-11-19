@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import ThemeToggle from './ThemeToggle'
+import logo from '../assets/logo.png'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -17,7 +18,8 @@ function Navbar() {
   return (
     <header className="border-b border-brand-100 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-night-card/80">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link to="/" className="font-heading text-xl font-bold text-brand-600">
+        <Link to="/" className="flex items-center gap-1.25 font-heading text-xl font-bold text-brand-600">
+          <img src={logo} alt="CampusLoop logo" className="h-5 w-auto" />
           CampusLoop
         </Link>
 

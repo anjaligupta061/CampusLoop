@@ -70,7 +70,7 @@ function Home() {
         <h2 className="font-heading text-xl font-semibold text-gray-900 dark:text-white">
           Popular Categories
         </h2>
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           {categories.map((item) => (
             <CategoryCard key={item.name} {...item} />
           ))}
