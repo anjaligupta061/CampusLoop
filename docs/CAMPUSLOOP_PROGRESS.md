@@ -1,196 +1,184 @@
 # CAMPUSLOOP — PROGRESS & SESSION HANDOFF
 
-> Last updated: 19 November 2026 (end of the "resume after Day 8" session)
-> Companion docs: `CAMPUSLOOP_MASTER_HANDOFF.md` (full history Day 1 → mid-Day 8), `PROJECT_CONTEXT.md`, PRD v3.0.
-> Labels: **[VERIFIED]** = seen in the uploaded source export or confirmed by Anjali in chat. **[UNVERIFIED]** = reported/instructed but not seen. **[OPEN]** = undecided.
+> Last updated: 21 November 2026 (end of Day 11 / Resource Details)
+> Companion docs: `CAMPUSLOOP_MASTER_HANDOFF.md` (history Day 1 → mid-Day 8), `PROJECT_CONTEXT.md`, PRD v3.0.
+> Labels: **[VERIFIED]** = seen in source export, pasted by Anjali, or confirmed by her in chat. **[UNVERIFIED]** = instructed/reported but not seen. **[OPEN]** = undecided.
 
 ---
 
 ## 1. Current Status
 
 - **Project:** CampusLoop (MERN campus resource-sharing platform), Anjali's main resume project, built in mentor mode.
-- **Phase:** Phase 1 — Frontend with dummy data (planned Days 6–15). Backend not started.
-- **Position:** Day 8 (Landing page) is essentially finished; this session completed the Day 8 wrap-up. Day 8 can be called done once the items in Section 9 marked [UNVERIFIED] are confirmed (cleanup commit + push).
-- **Next:** Marketplace page (Anjali's choice; see Section 8 for the roadmap change).
-- **Overall:** ~8 of the 50 planned days of work done (frontend foundation + landing page). Everything backend-related, plus all pages except Home, is still to do.
+- **Phase:** Phase 1 — Frontend with dummy data. Backend not started.
+- **Done:** Days 1–8 (foundation, routing, theme, components, landing page + wrap-up), **Day 9 = Marketplace**, **Day 10 = Dashboard**, **Day 11 = Resource Details** — all tested by her.
+- **Next:** Day 12 — Create Listing form (tomorrow). See Section 10.
+- **Overall:** ~11 of the planned 50 days. Backend and most remaining pages still to do.
 
 ---
 
-## 2. Verification of the Codebase (done at the start of this session)
+## 2. Codebase Verification History
 
-Anjali uploaded `CampusLoop_Full_Source.txt` (a text export of the whole project, ~4,875 lines, including package-lock and docs). Actual app code is small (~600 lines). The export contained **code files only** — no images (`src/assets/*.png`), no `.git`, no `public/`. So image files and git state could not be verified from it.
+Earlier, Anjali uploaded `CampusLoop_Full_Source.txt` (code only: no images, no `.git`, no `public/`). Verified then: Theme Context wired, `Counter.jsx` deleted, `Home.jsx` clean, `/login` route exists (no Navbar link), React 19, Vite 8, react-router-dom 7, Tailwind 4 (`@tailwindcss/vite`), lucide-react. Checkpoint commit then: **`c5e3aff`**.
 
-Last verified commit given by Anjali: **`c5e3aff`** — "Day 8: landing page hero, search bar, action cards, features, categories, featured listings".
+Later pastes: `Navbar.jsx` + `App.jsx` (start of Day 10), `Dashboard.jsx` (Day 10 debugging), `ListingCard.jsx` (Day 11; pasted mixed with `SaveButton.jsx` code, but app was running so real files are assumed fine — [UNVERIFIED] that `ListingCard.jsx` has no stray `SaveButton` code inside it).
 
-State of the code at that export (before today's edits):
-- `main.jsx`: `StrictMode > ThemeProvider > BrowserRouter > App` — Theme Context IS wired. [VERIFIED]
-- `ThemeToggle.jsx` uses `useContext(ThemeContext)`. [VERIFIED]
-- `Counter.jsx` is deleted; `Home.jsx` had no leftover test inputs or unused imports. [VERIFIED]
-- `/login` route exists in `App.jsx`; no Login link in Navbar. [VERIFIED]
-- Stack versions in `package.json`: React 19, Vite 8, react-router-dom 7, Tailwind 4 (`@tailwindcss/vite`), lucide-react. [VERIFIED]
-
-### Handoff vs. actual-code discrepancies found
-| # | Finding | Status after today |
-|---|---|---|
-| 1 | `Home.jsx` categories grid was `lg:grid-cols-6` but there are 7 categories (7th card orphaned). Handoff said `lg:grid-cols-7`. | Anjali says fixed ("1 to 3 done") |
-| 2 | `index.css` had `@import "tailwindcss";` twice. | Anjali says fixed |
-| 3 | `Login.jsx` had unused `use` in `import { use, useState }`. (No `console.log` of password — good; handoff had said there was one.) | Anjali says fixed |
-| 4 | `App.css` is imported nowhere (dead file). Has global `main/h1/p` styles that would interfere if ever imported. | **Not touched** |
-| 5 | Dark-mode gaps: `ListingCard` type badge has no light-mode background; mobile menu in `Navbar.jsx`, `NotFound.jsx`, `Profile.jsx` text have no `dark:` classes; `Button` `secondary` has no dark style. | **Not touched** |
-| 6 | Placeholder pages Marketplace/LostFound/NeedBoard/Messages all contain copy-pasted text "Landing page yahan banega." | **Not touched** |
-| 7 | `listings.js` dummy data: "Lend" listing (DBMS Notes) has price ₹150 although Lend = free; Rent listing has no rental period. Only 5 listings. | **Not touched** — fix while building Marketplace |
-| 8 | `index.html` `<title>` is still "client"; favicon is default `/favicon.svg`. | **Not touched** |
-| 9 | `docs/` folder contains a nested duplicate "Continuity Pack" (README + duplicate handoff/context). | **Not touched** (optional tidy-up) |
+Old discrepancy list status:
+| Finding | Status |
+|---|---|
+| Categories grid `lg:grid-cols-6` for 7 categories | Fixed |
+| Duplicate `@import "tailwindcss"` in `index.css` | Fixed |
+| Unused `use` import in `Login.jsx` | Fixed |
+| `listings.js` Lend ₹150 / Rent ₹2500 | Fixed (Lend 0, Rent 50; period not shown on card) |
+| `App.css` imported nowhere (dead file) | Not touched |
+| Dark-mode gaps: `ListingCard` type badge has no light-mode bg/text colour; mobile menu in `Navbar.jsx` (no `dark:` text, no bg), `NotFound.jsx`, `Profile.jsx`, `Button` secondary; Dashboard/ResourceDetails text mostly has `dark:` classes | Not touched |
+| Placeholder text "Landing page yahan banega." in LostFound/NeedBoard/Messages | Not touched |
+| `index.html` title "client", default favicon | Not touched |
+| `docs/` nested duplicate "Continuity Pack" | Not touched |
 
 ---
 
-## 3. Everything Completed This Session
+## 3. Everything Completed
 
-1. Cross-checked actual code against handoff (Section 2).
-2. **Theme-aware hero:** `Home.jsx` now reads `isDark` via `useContext(ThemeContext)` and shows `hero-dark.png` in dark mode, `hero-light.png` in light mode. Tested by Anjali: image swaps correctly. [VERIFIED — she confirmed]
-3. **Dark-mode styling for hero text/overlay:** gradient overlay got `dark:from-night/80 dark:via-night/40`; `h1` got `dark:text-white`; hero `<p>` got `dark:text-gray-300`. Tested: "sab dikh raha hai". [VERIFIED — she confirmed]
-4. Committed the above (Anjali: "git commit bhi kar diya"). **Commit hash not provided.** [commit VERIFIED by her statement; hash UNKNOWN]
-5. **Logo in Navbar:** `logo.png` imported and shown next to the "CampusLoop" text in `Navbar.jsx`. Iterated on: image squashed (fixed by `h-* w-auto` instead of fixed `h-8 w-8`), gap between logo and text (`gap-1`), size reduced by changing the `h-*` class. She said "done bhai". [VERIFIED she said done; final size/gap values not seen]
-6. **Cleanups:** `lg:grid-cols-7`, removed duplicate `@import "tailwindcss"`, removed unused `use` import in `Login.jsx`. Anjali: "1 to 3 done". [VERIFIED by her statement; not re-seen in code]
-7. Day 8 interview round started (answers in Section 5).
-8. Chose next task: **Marketplace**.
+### Day 8 wrap-up
+Theme-aware hero (`isDark` from `useContext(ThemeContext)`, `src={isDark ? heroDarkImg : heroImg}`), dark text/gradient on hero, logo in Navbar (`h-5 w-auto`), cleanups. Tested.
 
----
+### Day 9 — Marketplace (tested, committed, pushed [VERIFIED push: `beb0e27..76f7ddd main -> main`, up to date, clean tree])
+`Marketplace.jsx`: grid of all listings; search (controlled input, case-insensitive `.filter` + `.includes` + `.toLowerCase`); empty state; type buttons (All/Sell/Rent/Lend/Giveaway, active highlight via `selectedType === t`); category `<select>` via `categories.map`; combined filters with `&&` and `(x === 'All' || item.y === x)`. `listings.js` has `category` per item; Lend/Rent prices fixed.
 
-## 4. Files Created / Modified / Deleted This Session
+### Day 10 — Dashboard (tested)
+`Dashboard.jsx` + `/dashboard` route + Navbar link (one `links` array feeds desktop and mobile menus); `StatCard.jsx` (props `label`, `value`, `icon`); stat cards "Listings on campus" = `listings.length` (5) and "Free items" = `listings.filter((item) => item.price === 0).length` (2); "Explore listings" = `listings.slice(0, 3).map(...)` (named "Explore", not "Recommended", because SmartMatch/AI doesn't exist); honest empty-state boxes "Upcoming returns" / "Recent activity". Not built (need auth/backend/AI): sidebar, SmartMatch box, "Need Something?" and "My Stats" panels.
 
-**Modified (based on what was instructed and reported done):**
-- `client/src/pages/Home.jsx` — added imports `useContext`, `ThemeContext` (from `../context/ThemeContext`), `heroDarkImg` (from `../assets/hero-dark.png`); added `const { isDark } = useContext(ThemeContext)`; `<img src={isDark ? heroDarkImg : heroImg} />`; dark classes on gradient div, `h1`, `p`; categories grid `lg:grid-cols-6` → `lg:grid-cols-7`.
-  - A temporary `console.log(isDark)` was added for testing. Anjali was told to delete it; **she never confirmed deleting it → [UNVERIFIED], check this file first thing.**
-- `client/src/components/Navbar.jsx` — added `import logo from '../assets/logo.png'` (path may differ if she placed it in an `images/` folder — [UNVERIFIED]); logo `<img>` with `h-* w-auto` inside the home `<Link>` (`flex items-center gap-1`).
-- `client/src/index.css` — removed duplicate `@import "tailwindcss";`.
-- `client/src/pages/Login.jsx` — removed unused `use` from the react import.
+### Day 11 — Resource Details (tested; all steps reported working by her)
+1. `src/pages/ResourceDetails.jsx` created; `App.jsx` route `<Route path="/marketplace/:id" element={<ResourceDetails />} />` (above `path="*"`).
+2. `useParams()` → `const { id } = useParams()`; id is a **string**.
+3. `const listing = listings.find((item) => item.id === Number(id))` (`Number()` needed because `3 === '3'` is false).
+4. Not-found state: `if (!listing) { return (...) }` with message "Listing not found" and `<Link to="/marketplace">` back link (early return prevents `undefined.title` crash).
+5. Details layout: back link, "No image" placeholder block, type badge, title, `priceText` (copied `if/else if/else` Free / Price not set. / ₹N logic, using `listing.price`), Category, Condition, Location. Seller info, Request/Chat buttons, ratings are NOT shown (don't exist yet).
+6. `ListingCard.jsx`: added `import { Link } from 'react-router-dom'`, `id` in the props, and the **title is a `<Link to={`/marketplace/${id}`}>`** (decision: only the title is the link, not the whole card, to avoid click conflicts with `SaveButton`). Image is not clickable yet.
+7. Commits suggested: `Day 11: ResourceDetails route`, `Day 11: read id with useParams`, `Day 11: find listing by id`, `Day 11: not found state for ResourceDetails`, `Day 11: ResourceDetails layout with price logic`, `Day 11: link ListingCard title to details page` + `git push` + `git status`. Whether these were committed AND pushed is [UNVERIFIED] (she said "done"; no `git status` output pasted after Day 9).
 
-**Created (assets, not visible in the export):**
-- `client/src/assets/hero-dark.png` — dark/night hero image (she generated it with Gemini). [VERIFIED indirectly: image swap works]
-- `client/src/assets/logo.png` — logo icon. Advice given to remove the white background and tight-crop it (remove.bg/Canva + Photopea → Image → Trim → Transparent Pixels → export PNG, keep same filename). Whether she actually did this, and whether the white patch behind the logo in dark mode is gone, is **[UNVERIFIED]**. In her screenshot (before the fix) the logo showed a white rectangular patch in dark mode, with the icon small in the middle.
-
-**Deleted:** none this session (`Counter.jsx` was already gone).
-
-**Memory/doc files:** this `CAMPUSLOOP_PROGRESS.md` is new (no earlier version existed in Project Knowledge). Suggest saving it as `docs/CAMPUSLOOP_PROGRESS.md` and uploading to Project Knowledge.
+### Current data files [VERIFIED as pasted]
+- `src/data/listings.js`: `export const listings` — 5 items `{ id, title, price, type, category, condition, location, image: null }` (1 DBMS Notes Lend/Books/0; 2 Casio Calculator Sell/Electronics/300; 3 Sony Headphones Rent/Electronics/50; 4 Java Book Sell/Books/250; 5 Study Table Giveaway/Hostel Essentials/0).
+- `src/data/categories.js`: `export const categories` — Books, Stationery, Electronics, Hostel Essentials, Clothing, Sports, Other (each `name`, lucide `icon`, full-class `tint`).
 
 ---
 
-## 5. Concepts Learned This Session
+## 4. Files Created / Modified / Deleted
 
-- **`useContext`** — how a component connects to a Context. Analogy used: WiFi router (`ThemeProvider`) and connecting (`useContext`).
-- **Destructuring from context:** `const { isDark } = useContext(ThemeContext)` — names must match the keys in the Provider's `value={{ isDark, setIsDark }}`. `Home` only needs `isDark` (reads), `ThemeToggle` needs both (reads + changes).
-- **Why `Home` re-renders on toggle:** connected components re-render when the Provider's value changes. Before `Home` used `useContext`, it did not.
-- **Choosing an image with a ternary:** `src={isDark ? heroDarkImg : heroImg}`.
-- **Tailwind is mobile-first:** no prefix = all screens; `md:` = 768px and up; `lg:` = 1024px and up. `hidden md:block` = hidden on mobile, shown from md.
-- **Why the hero gradient is `md:` only:** on desktop the text is `absolute` over the image (needs overlay for readability); on mobile text sits above the image, no overlay needed.
-- **`key` in `.map()`:** unique identity so React updates lists efficiently.
-- **`slice(start, end)`:** returns a new array copy, end index excluded; `listings.slice(0, 4).map(...)` shows the first 4 cards; original array unchanged.
-- **Images in HTML/CSS:** `h-9 w-auto` keeps aspect ratio (fixed `h-8 w-8` squashed a non-square logo). Transparent background must be fixed in the image file, not with CSS. Trim in Photopea removes empty transparent margins.
-
-### Day 8 interview Q&A status
-| Question | Anjali's answer | Status |
-|---|---|---|
-| How did `Home` get `isDark` / how does the hero image change? | "useContext se ThemeProvider se mila" | Half right; model answer given (state changes → re-render → ternary picks the other image). |
-| What does `listings.slice(0, 4).map(...)` do? | "nahi pata" | Explained. |
-| Why gradient only on `md:`? | "nahi pata" | Explained. |
-| `slice(0, 2)` → how many cards, which? | "2 cards" | Count correct; she did not name which (DBMS Notes + Casio Calculator). |
-| Why `lg:`? / why `key`? | "nahi pata" | Explained. |
-Re-ask these briefly at the start of the next session (she often skips/doesn't know; that's fine, gently revisit).
+**Created (Days 10–11):** `client/src/pages/Dashboard.jsx`, `client/src/components/StatCard.jsx`, `client/src/pages/ResourceDetails.jsx`.
+**Modified (Days 10–11):** `client/src/App.jsx` (imports + `/dashboard` and `/marketplace/:id` routes), `client/src/components/Navbar.jsx` (`links` array), `client/src/components/ListingCard.jsx` (Link + `id` prop), `docs/CAMPUSLOOP_PROGRESS.md` (this file).
+**Earlier:** `Marketplace.jsx`, `listings.js`, `categories.js` (restored after accidental overwrite), `Home.jsx`, `Navbar.jsx` (logo), `index.css`, `Login.jsx`; assets `hero-dark.png`, `logo.png` (not visible in export).
+**Deleted:** none.
 
 ---
 
-## 6. Bugs / Errors / Unfinished Items
+## 5. Concepts Learned
 
-**Unfinished or unverified from today**
-- [UNVERIFIED] `console.log(isDark)` removed from `Home.jsx`.
-- [UNVERIFIED] Logo white-background issue in dark mode fixed (new transparent `logo.png`)? Final logo size and gap not seen.
-- [UNVERIFIED] The last cleanup commit (suggested message: "Day 8 cleanup: grid fix, remove duplicate import and unused import") — she said items 1–3 done but did not confirm this commit or `git status` being clean.
-- [UNVERIFIED] Whether anything has been **pushed** to GitHub (hero-dark commit, logo commit, cleanup commit). Ask for `git status`, `git log --oneline -5` and `git status -sb` output.
-- Hero image has a small white sparkle (Gemini watermark) at the bottom-right, near the tree, visible in her dark-mode screenshot. Plan: hide with `object-position`/crop or re-export a cropped image. Not done.
+Earlier: `useContext`, destructuring from context, re-render on Provider change, ternary for `src`, mobile-first breakpoints (`md:`, `lg:`), `key`, `slice`, `.filter()` (new array, no mutation), `.includes()`/`.toLowerCase()`, derived state, multiple `useState`, `&&`/`||` short-circuit + parentheses, conditional rendering, empty states, controlled `<select>`, single source of truth, adding a page = component + `<Route>` + `links` entry, reusable `StatCard`, values computed from data, `slice` end-index rule, default vs named exports/imports (`export default X` ↔ `import X from`; `export const X` ↔ `import { X } from`), honest UI (no fake data).
 
-**Known issues carried forward** (see Section 2 table): `App.css` dead file; dark-mode gaps (ListingCard badge light bg, mobile menu, NotFound, Profile, secondary Button); placeholder text on pages; `listings.js` data semantics (Lend with price, Rent without period); `index.html` title "client"; duplicate docs; `Login` not linked in Navbar and has no validation.
-
-**Still UI-only (do not treat as complete):** `SearchBar` (does nothing), 4 `ActionCard`s (no onClick/navigation), `CategoryCard` (links to `/marketplace`, no filter), `SaveButton` (local state only), `Login`, `FeatureItem`.
-
-**Still open decisions from before:** hero card-style vs edge-to-edge; Layout `py-8` vs `py-4`; Tickets feature details (flag on listings, price ≤ original, expiry; travel tickets undecided); Aurora background (postponed by her).
-
-No new runtime errors were reported this session (the only issues were visual: squashed logo, gap, white logo background).
+Day 11:
+- **Dynamic route** `/marketplace/:id` (`:id` = URL parameter placeholder); without it `/marketplace/3` falls to `path="*"` → 404.
+- **`useParams()`** returns an object of URL params; values are **strings**.
+- **`.find()`** returns the first matching item (or `undefined`); `.filter()` returns an array of all matches.
+- **String vs number:** `3 === '3'` is false → convert with `Number(id)`.
+- **Early return** for not-found (prevents `Cannot read properties of undefined`).
+- **`priceText` variable** outside JSX keeps Free / Price not set / ₹N logic in one place (`{listing.price}` would show `0`, not "Free").
+- **`<Link>` vs `<a>`:** `<a href>` reloads the whole page (state resets); `<Link>` changes the URL without reload → SPA behaviour.
+- **Template literal** in `to={`/marketplace/${id}`}` (backticks).
+- **Event bubbling** risk (button inside a clickable card) — avoided by linking only the title.
 
 ---
 
-## 7. Exact Stopping Point
+## 6. Interview Question Bank (answers deferred by choice)
 
-- Day 8 wrap-up essentially done; cleanups reported done; interview Q&A partly answered.
-- Last assistant message asked her to: (a) make the final cleanup commit, (b) run `git status`, (c) choose Marketplace or Dashboard.
-- Her last message: asked to end the session; **she chose Marketplace** ("we will move ahead to marketplace").
-- No Marketplace code has been written. `Marketplace.jsx` is still the placeholder stub.
+**Anjali's decision (21 Nov 2026):** she will answer ALL interview questions together **at the end of the project**, not daily. Don't pressure her; keep adding each day's questions here. (Suggestion she heard: write at least one line per day so recall doesn't fade; her choice.) At the end, run a mock-interview session through this bank and give model answers.
+
+Answered earlier (graded): shared `listings` array benefit (correct); `.filter()` (correct); `&&` + brackets (correct); blank screen/UX empty state (correct); `e.target.value` (correct); `.toLowerCase()` (correct); `isDark` via `useContext` (half right); `selectedType === t` (corrected); `||` short-circuit (correct); `slice(0,2)` count (right); why `StatCard` value changes with data (correct); `useParams` id type (correct: string); why no fake entries in empty-state boxes (right + honesty reason added).
+
+**Pending questions (unanswered, to revisit at the end):**
+- Day 8: How does the hero image change with theme? What does `listings.slice(0, 4).map(...)` do? Why is the gradient `md:`-only? What do `lg:` and `key` mean?
+- Day 9: Why isn't `filteredListings` kept in `useState`? Why option `value` must match the data field? What does `.filter()` return/mutate?
+- Day 10: default vs named import braces; why `StatCard` is reusable; why "Free items" count isn't state; why one added line in the `links` array updates both menus (answer: both menus `.map` over one array).
+- Day 11: What is `:id` and what does `useParams()` give? `.find()` vs `.filter()`? Why `Number(id)`? Why the early return `if (!listing)`? `Link` vs `<a>`? Why `priceText` is computed outside JSX? (model answers for several were already given in chat)
+- Resume-worthy talking points so far: single source of truth for data, derived data not state, honest UI without fake metrics, dynamic routes, reusable components.
 
 ---
 
-## 8. Roadmap Status & Changes
+## 7. Bugs, Errors, Unfinished
 
-Roadmap (50 days at ~2 hrs/day) is **preserved** from the master handoff:
-- Phase 1 Frontend with dummy data (Days 9–15): Day 10 Dashboard, Day 11 Marketplace, Day 12 Resource Details, Day 13 Create Listing (+ ticket checkbox), Day 14 Lost & Found screens, Day 15 Need Board, Profile, loading/empty/error states.
+**Bugs (all resolved):**
+- `categories.js` overwritten with listings code during a paste → `does not provide an export named 'categories'` in `Home.jsx` (Day 9). Fixed by restoring both data files. Lesson: check the VS Code tab name before pasting.
+- `import { ListingCard } from '../components/ListingCard'` in `Dashboard.jsx` → cards not showing (Day 10). Fixed by removing braces (default export).
+- Mixed pastes of several files in one message (Navbar+App+git output; ListingCard+SaveButton) — her real files appear fine; ask her to paste one file per code block.
+
+**Unverified:** `console.log(isDark)` removed from `Home.jsx`; "Typing: …" test `<p>` removed from `Marketplace.jsx`; logo white-background fix in dark mode (needs transparent PNG); Day 10 and Day 11 commits/push; `DashBoard` → `Dashboard` function rename.
+
+**Still UI-only (don't treat as complete):** Home `SearchBar`, 4 `ActionCard`s (no onClick), `CategoryCard` (links to `/marketplace`, doesn't preselect category), `SaveButton` (local state, resets), `Login` (no validation/backend, no Navbar link), `FeatureItem`. Marketplace filters work on dummy data only; no price/condition/sort; Rent price shows "₹50" without period. Details page has no image, seller or action buttons. `ListingCard` image isn't clickable.
+
+**Pending polish:** Aurora background (postponed by her); hero Gemini sparkle watermark; dark-mode gaps (Section 2); dead `App.css`; placeholder text on LostFound/NeedBoard/Messages; `index.html` title; Dashboard/details publicly reachable (to be protected after auth).
+
+**Open decisions:** hero card vs edge-to-edge; Layout `py-8` vs `py-4`; Tickets feature (flag on normal listing, "Tickets only" filter, price ≤ original, expiry; travel tickets undecided).
+
+---
+
+## 8. Exact Stopping Point
+
+- Day 11 finished. She asked for this progress file, said Day 12 will be done tomorrow, and that interview answers will come at the end.
+- Last assistant message asked: answer the Day 11 interview questions (now deferred) and choose Day 12 or ending the session. She chose: **Day 12 tomorrow**.
+- No Create Listing code exists: no `CreateListing.jsx`, no `/create-listing` route, no link/button to it.
+
+---
+
+## 9. Roadmap Status & Git
+
+**Roadmap (50 days @ ~2 hrs/day) preserved:**
+- Phase 1 Frontend with dummy data: Day 12 Create Listing form (+ ticket checkbox/fields + validation), Day 13 Lost & Found screens, Day 14 Need Board, Profile, loading/empty/error states, toast, Day 15 polish/leftovers.
 - Phase 2 Backend & Auth (16–22); Phase 3 Marketplace backend (23–29); Phase 4 Lost & Found (30–34); Phase 5 Communication & Tracking (35–39); Phase 6 AI & Trust (40–44); Phase 7 Admin, Security, Deploy (45–50).
 
-**Change decided this session:** Marketplace is built **before** the Dashboard (original order: Dashboard Day 10, Marketplace Day 11). Reason: Marketplace builds directly on existing `ListingCard` + `listings.js` and teaches `useState` + `.filter()`; Dashboard brings many new layout concepts at once. Dashboard is deferred to right after Marketplace. Day numbers in the roadmap shift accordingly; don't be strict about numbering, follow the order of tasks.
+**Changes so far:** Marketplace done before Dashboard (her choice); numbering shifted ~1 day (Marketplace=Day 9, Dashboard=Day 10, Resource Details=Day 11); Dashboard intentionally simplified. Pending Marketplace follow-ups: CategoryCard → preselect category (`useSearchParams`), sort/price/condition filters, "Tickets only", Rent period label, clickable card image.
 
-No other scope changes. Tickets feature stays planned (Create Listing checkbox + "Tickets only" filter in Marketplace later).
-
----
-
-## 9. Git State
-
-- **Last verified commit hash:** `c5e3aff` — Day 8 checkpoint (given by Anjali before today's work).
-- **Commits made after that (by her):** hero-dark theme-aware commit (she said it was done; hash unknown). Logo commit and "Day 8 cleanup" commit were suggested; completion **not confirmed**.
-- **Pushed to GitHub?** **NOT VERIFIED.** Remote: `https://github.com/anjaligupta061/CampusLoop.git`, branch `main`.
-- First action next session: ask her to run `git status` and `git log --oneline -5`, then commit anything outstanding and `git push`. Do NOT suggest destructive commands (`reset --hard`, `clean -fd`).
+**Git:** last **verified**: push `beb0e27..76f7ddd main -> main`, "up to date with 'origin/main'", clean tree (end of Day 9). Hash **`76f7ddd`**. Day 10–11 commits/push [UNVERIFIED]. Next session start: ask for `git status` and `git log --oneline -5`; commit/push anything outstanding. Never suggest destructive commands (`reset --hard`, `clean -fd`).
 
 ---
 
-## 10. NEXT TASK — Marketplace page (step by step)
+## 10. NEXT TASK — Day 12: Create Listing form (step by step)
 
-Goal for the next session: replace the `Marketplace.jsx` stub with a working Marketplace grid with search and a Sell/Rent/Lend/Giveaway type filter, using only dummy data. One small step at a time; she types the logic.
+Goal: a `/create-listing` page with a form (dummy only, no backend, nothing saved to `listings.js`) teaching **object state for forms**, selects, conditional fields and validation. Tiny steps; she types the logic.
 
-**Before coding (5–10 minutes):**
-1. Ask for `git status` / `git log --oneline -5`; get everything committed and pushed.
-2. Ask her to paste current `Home.jsx` and `Navbar.jsx` to confirm: `console.log(isDark)` removed, logo import path, gradient/dark classes present, `lg:grid-cols-7`.
-3. Ask: is the logo's white patch gone in dark mode? (If not, remind: remove background in the image file, replace `logo.png`.)
-4. Re-ask the Day 8 interview questions in Section 5 she didn't know (short).
+**Before coding:**
+1. `git status` + `git log --oneline -5`; commit/push.
+2. Ask her to paste (one file per code block) `Input.jsx` (to check whether it accepts a `name` prop — handoff says props were label/id/type/placeholder/value/onChange, **no `name`**, which the object-state pattern needs), `Login.jsx` and `Marketplace.jsx` (to resolve the test-`<p>` question).
+3. Quick check of the [UNVERIFIED] items in Section 7.
 
-**Marketplace steps (each = concept → small task → test):**
-1. **Show all listings.** In `Marketplace.jsx`: heading + grid of `ListingCard` from `listings` using `.map` and `key={item.id}`, no `slice`. Grid classes like Home's featured grid. Test light/dark, mobile/desktop. Concept: reusing components and data; difference from `slice(0,4)` on Home.
-2. **Fix dummy data** in `src/data/listings.js`: make Lend items free (price 0), give Rent items a clear rent meaning (e.g. price per day — decide with her; keep `ListingCard` price logic working), add ~3–5 more varied listings (different types, categories, conditions). No fake ratings/trust/stats. Add a `category` field matching `categories.js` names. Note PRD category names are longer; UI names are shortened — keep as is for now.
-3. **Search box (controlled input).** `useState` for `searchText`, an input (reuse `Input` or write plain input), filter listings by title using `.filter()` + `.toLowerCase().includes()`. Concept: derived data (filter result is computed, not stored in state). Test: typing filters live; empty text shows all.
-4. **Empty state:** when no results, show a friendly "No listings found" message (conditional rendering).
-5. **Type filter buttons:** All / Sell / Rent / Lend / Giveaway using a `selectedType` state; combine with search. Concept: two states, one derived list.
-6. **(Later steps)** category filter, sort by price, price range, condition. "Tickets only" filter comes after the Create Listing form defines the ticket flag.
-7. After each step: test checklist (light + dark, mobile + desktop, console errors), 2–4 short practice/interview questions, suggested commit message (e.g. `Day 9: Marketplace grid with all listings`, `Day 9: search filter on Marketplace`).
+**Steps (one at a time):**
+1. Concept: what the form will do. Create `src/pages/CreateListing.jsx` stub (heading + subtitle), route `/create-listing` in `App.jsx` (above `path="*"`), and a "+ Create Listing" `<Link>` button on the Marketplace page header (decide Navbar link later). Test.
+2. Object state: `const [form, setForm] = useState({ title: '' })` + one title input with `name="title"` + `handleChange` using `setForm({ ...form, [e.target.name]: e.target.value })`; show `form.title` live to test. Concept: spread operator, computed property key `[e.target.name]`, why one state object instead of one `useState` per field. (Add `name` support to `Input` if needed — small diff.)
+3. Add fields one by one: type `<select>` (Sell/Rent/Lend/Giveaway), category `<select>` from `categories.map`, condition `<select>` (Like new/Excellent/Good/Fair — match values used in `listings.js`), location, price.
+4. Conditional fields: Lend/Giveaway → no price input (price saved as 0); Rent → price with "per day" label; Sell → price. (Conditional rendering revision.)
+5. Validation: `errors` state; title required, price must be a number ≥ 0 when shown, type/category required; show messages under fields; clear on typing. Backend must repeat validation later.
+6. `handleSubmit`: `preventDefault`, validate, then `console.log` the form object (NEVER log passwords) and show a success message; no saving to `listings.js` (no persistence until backend). Optional later: fake image preview only.
+7. Last (planned, can be Day 13): ticket checkbox "This is a ticket" → fields event/route name, date & time, venue, quantity, original price; rule selling price ≤ original price (anti-scalping; backend repeats it).
+8. After each step: test checklist (light + dark, mobile + desktop, console), 2–4 interview questions (added to the bank), commit message suggestion (e.g. `Day 12: CreateListing page and route`).
 
-Concepts the Marketplace session will teach: `.filter()`, `.includes()`, controlled inputs revisited, derived state, multiple `useState`, conditional rendering for empty state, sharing data files across pages.
-
-Also do when convenient (small): move shared reading of `categories`/`listings` stays in `src/data/`; read category from URL later (`useSearchParams`) so `CategoryCard` can filter Marketplace — future step, not now.
+Concepts expected: object state in forms, spread operator, computed keys, controlled select/inputs revisited, conditional fields, validation and error state, `preventDefault` revisited.
 
 ---
 
-## 11. Instructions for the Next Chat (copy into the first message / project instructions)
+## 11. Instructions for the Next Chat
 
-- **Language/tone:** Hinglish (Roman script), friendly mentor, casual "bhai" is OK. She is a beginner learning MERN while building. If she gets frustrated or uses strong language, stay calm, slow down, simplify — don't mirror it or over-apologise.
-- **Teaching style (VERY important):** ONE small step at a time. Explain the concept first (use simple analogies, e.g. the WiFi-router analogy for Context worked), then a small task, then wait for her result. She gets overwhelmed with multiple edits in one message — when she says "nahi samajh aa raha", **simplify and shrink the step**, ask her to paste a single line, or give the exact code for one small edit (she is fine receiving exact code for small/boilerplate edits, but not whole-day dumps). For logic, guide her to write it; for styling/boilerplate, giving the code is fine.
-- After every change tell her **exactly what to test** (light + dark mode, mobile width, console errors).
-- Ask 2–4 short interview/practice questions after each concept; grade honestly and kindly; she often answers "nahi pata" — that is fine, explain, then re-ask a variant later.
-- Prepare resume/interview talking points as features get built.
-- Suggest a Git commit message per step.
-- **Never rebuild from scratch**; never rewrite whole files; ask her to paste the current file before editing (she often shows only parts; several past bugs came from assuming file contents). Check actual code before assuming anything is complete.
-- Do NOT claim you ran or tested code. You cannot generate images or see her screen — she makes images in Gemini and sends screenshots.
-- **Do not repeat completed work:** theme Context, theme-aware hero, logo in Navbar, hero dark-mode text, and the Day 8 cleanups are done (pending the [UNVERIFIED] checks in Section 6).
-- **Preserve decisions:** React + Vite (JS), Tailwind CSS v4 (`@theme` tokens: brand-50/100/500/600/700, night, night-card; fonts Inter + Poppins via `font-heading`), class-based dark mode on `<html>`, Layout + `Outlet`, `src/data/*.js` for dummy data, 7 PRD-based categories, lucide-react icons, honest copy (no fake counts, ratings, trust scores or environmental numbers; PRD forbids invented metrics, AI-invented listings, and ownership/identity guarantees).
-- Tailwind: always write full class names (no `bg-${color}-600`). Pattern for dark mode: keep the light class and append `dark:` classes.
-- Safety: no destructive git commands; never expose secrets; never log/store plaintext passwords.
-- Tickets feature rules (planned): flag on a normal listing (not a category), price ≤ original price (validate on frontend AND backend), auto-hide after event date, no in-app payments, travel-ticket policy still undecided.
-- Environment: Windows, VS Code, project under OneDrive Desktop (`C:/Users/ASUS/OneDrive/Desktop/Campus_Loop/client`); `npm run dev` on `localhost:5173`. Repo `anjaligupta061/CampusLoop`, branch `main`.
-- Start of next session, in order: (1) greet briefly, (2) ask for `git status` + `git log --oneline -5`, (3) have her paste `Home.jsx` and `Navbar.jsx` to resolve [UNVERIFIED] items, (4) quick re-ask of unanswered Day 8 interview questions, (5) begin Marketplace Step 1.
+- **Language/tone:** Hinglish (Roman script), friendly mentor, "bhai" is fine. Beginner learning MERN while building. If she's frustrated or uses strong words, stay calm, simplify; don't mirror or over-apologise. She sometimes dictates in Hindi (Devanagari) — dictation can be garbled; ask her to restate the key point if unclear. Reply in Hinglish Roman.
+- **Teaching style (very important):** ONE small step at a time. Concept first (simple analogies work: WiFi router for Context, photocopy of a register for `.filter()`), then a small task, then wait for her result. When she says "nahi samajh aa raha", "code tum hi de do" or "blank nahi aa raha", shrink the step, show the exact surrounding code and exactly where to paste, and give the exact line for small edits. For logic, guide her to type it but don't leave her stuck. Boilerplate/styling can be given in full.
+- She tends to paste several files in one block; state **which file** each edit goes in, remind her to check the VS Code tab name, and ask for one file per code block. For errors, ask for the full error text and the full file.
+- Grade answers honestly and kindly. **Interview answers are deferred to the project end by her choice** — still list 2–5 short questions after each concept and add them to the bank in this file; don't nag. Give model answers when she says "nahi pata".
+- After every change tell her **exactly what to test** (light + dark, mobile + desktop, console errors).
+- Suggest a Git commit message per step; verify push by asking for `git status` output.
+- **Never rebuild from scratch, no whole-file rewrites** unless the file is a small stub or she asks. Ask her to paste the current file before editing.
+- Don't claim to have run/tested code; you can't see her screen or generate images (she uses Gemini).
+- **Do not repeat completed work:** theme Context, theme-aware hero, logo, Marketplace (all filters), Dashboard basics, Resource Details.
+- **Preserve decisions:** React + Vite (JS), Tailwind CSS v4 (`@theme` tokens brand-50/100/500/600/700, night, night-card; Inter + Poppins via `font-heading`), class-based dark mode on `<html>`, Layout + `Outlet`, dummy data in `src/data/*.js` as **named exports**, 7 PRD-based categories, lucide-react icons, full Tailwind class names (no dynamic building), pattern: keep light class and append `dark:` classes, honest copy (no fake counts/ratings/trust scores/environmental numbers/activity; PRD forbids invented metrics, AI-invented listings, ownership/identity guarantees; don't label non-AI features as AI/SmartMatch).
+- Tickets feature plan (not built): flag on normal listing (not a category), selling price ≤ original price (validate frontend AND backend), auto-hide after event date, no in-app payment, travel-ticket policy undecided.
+- Environment: Windows, VS Code, `C:\Users\ASUS\OneDrive\Desktop\Campus_Loop` (app in `client/`), `localhost:5173`, repo `anjaligupta061/CampusLoop`, branch `main`.
+- Start of next session, in order: (1) brief greeting, (2) `git status` + `git log --oneline -5`, (3) paste `Input.jsx`, `Login.jsx`, `Marketplace.jsx`, (4) begin Day 12 Step 1.
 
 ---
 
@@ -199,14 +187,13 @@ Also do when convenient (small): move shared reading of `categories`/`listings` 
 | Area | Status |
 |---|---|
 | Routing, Layout, Navbar + mobile menu | Done |
-| Theme toggle + Context + localStorage | Done (verified in code) |
-| Hero light + dark image swap, dark text/overlay | Done (she tested) |
-| Logo in Navbar | Done, final look/white-bg fix [UNVERIFIED] |
-| Landing page sections (actions, features, categories, featured) | Done (UI) |
-| Day 8 cleanups (grid-7, duplicate import, unused import) | Reported done |
-| Day 8 interview questions | Partly answered |
-| Git: all today's work committed & pushed | [UNVERIFIED] |
-| Marketplace page | **Next — not started** |
-| Dashboard | Deferred until after Marketplace |
-| Aurora background, hero watermark crop, dark-mode gaps | Pending |
+| Theme toggle + Context + localStorage | Done |
+| Hero light/dark + logo | Done (logo bg fix [UNVERIFIED]) |
+| Landing page | Done (UI; parts UI-only) |
+| Marketplace (grid, search, type + category filters, empty state) | Done, tested, pushed |
+| Dashboard (stat cards, explore listings, empty-state boxes) | Done, tested; push [UNVERIFIED] |
+| Resource Details (`/marketplace/:id`, not-found, card title link) | Done, tested; push [UNVERIFIED] |
+| Create Listing form | **Next (Day 12) — not started** |
+| Lost & Found UI, Need Board, Profile | Not started |
+| Aurora, hero watermark crop, dark-mode gaps, dead `App.css` | Pending |
 | Backend, auth, DB, Socket.IO, AI features, admin, deployment | Not started |

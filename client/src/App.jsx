@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
 import DashBoard from './pages/Dashboard'
+import ResourceDetails from './pages/ResourceDetails'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path='/dashboard' element={<DashBoard />} />
         <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/marketplace/:id" element={<ResourceDetails />} />
         <Route path="/lost-found" element={<LostFound />} />
         <Route path="/need-board" element={<NeedBoard />} />
         <Route path="/messages" element={<Messages />} />

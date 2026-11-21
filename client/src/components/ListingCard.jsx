@@ -1,7 +1,8 @@
 import SaveButton from './SaveButton'
 import { Image as ImageIcon } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-function ListingCard({ title, price, type, condition, location, image }) {
+function ListingCard({ id, title, price, type, condition, location, image }) {
   let priceText
 
   if (price === 0) {
@@ -29,7 +30,9 @@ function ListingCard({ title, price, type, condition, location, image }) {
         </span>
         <SaveButton />
       </div>
-      <h3 className="mt-3 font-heading text-lg font-semibold dark:text-white">{title}</h3>
+      <h3 className="mt-3 font-heading text-lg font-semibold dark:text-white">
+        <Link to={`/marketplace/${id}`} className="hover:text-brand-600">{title}</Link>
+      </h3>
       <p className="mt-1 text-brand-600">{priceText}</p>
       <p className="mt-1 text-sm dark:text-gray-400">{condition}</p>
       <p className="mt-1 text-sm dark:text-gray-400">{location}</p>
