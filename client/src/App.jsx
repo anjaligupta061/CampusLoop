@@ -8,12 +8,14 @@ import Messages from './pages/Messages'
 import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import Login from './pages/Login'
+import DashBoard from './pages/Dashboard'
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path='/dashboard' element={<DashBoard />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/lost-found" element={<LostFound />} />
         <Route path="/need-board" element={<NeedBoard />} />

@@ -5,6 +5,7 @@ import logo from '../assets/logo.png'
 
 const links = [
   { to: '/', label: 'Home' },
+  { to: '/dashboard', label: 'Dashboard' },
   { to: '/marketplace', label: 'Marketplace' },
   { to: '/lost-found', label: 'Lost & Found' },
   { to: '/need-board', label: 'Need Board' },
