@@ -1,5 +1,6 @@
 import ListingCard from "../components/ListingCard";
-import listings from "../data/listings";
+import { listings } from '../data/listings'
+import { Link } from 'react-router-dom'
 import { useState } from "react";
 import { categories } from '../data/categories'
 
@@ -15,9 +16,20 @@ function Marketplace() {
     (selectedCategory === 'All' || item.category === selectedCategory)
   )
   return (
+    
     <div>
-      <h1 className="font-heading text-3xl font-bold text-brand-600">Marketplace</h1>
-      <p className="mt-2 text-gray-600 dark:text-gray-300">Browse resources shared by students on campus.</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-heading text-3xl font-bold text-brand-600">Marketplace</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">Browse resources shared by students on campus.</p>
+        </div>
+        <Link
+          to="/create-listing"
+          className="rounded-full bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700"
+        >
+          + Create Listing
+        </Link>
+      </div>
 
       <input
         type="text"
